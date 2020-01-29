@@ -10,14 +10,17 @@ http
     const areaNode = new DOMParser().parseFromString(xml_data).getElementsByTagName('area');
     let results = {};
     for (let i=0; i < areaNode.length; i++) {
+      //filter for area location
       if (areaNode[i].getAttributeNode('type').value === 'location') {
+        //Read in location name
         const areaDesc = areaNode[i].getAttributeNode('description').value;
+        //Get forecast for that location
         const forecastNode = areaNode[i].getElementsByTagName('forecast-period');
         for(let j=0; j < forecastNode.length; j++) {
+          //Get only index 3 forecast
           if (forecastNode[j].getAttributeNode('index').value === '3') {
             const text = forecastNode[j].getElementsByTagName('text');
             results[areaDesc] = text[0].textContent;
-           // console.log(areaDesc + ":" + text[0].textContent);
           }
         }
       }
